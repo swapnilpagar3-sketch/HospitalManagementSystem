@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="100%" height="100%">
+  <defs>
+    <linearGradient id="medGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0d9488" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Emblem Icon -->
+  <g transform="translate(10, 10)">
+    <!-- Rounded Background -->
+    <rect x="0" y="0" width="60" height="60" rx="14" fill="url(#medGrad)" filter="url(#shadow)"/>
+    <!-- Medical Cross -->
+    <rect x="25" y="14" width="10" height="32" rx="4" fill="#ffffff" opacity="0.95"/>
+    <rect x="14" y="25" width="32" height="10" rx="4" fill="#ffffff" opacity="0.95"/>
+    <!-- Heartbeat Pulse Line -->
+    <path d="M 12 32 L 20 32 L 24 22 L 28 42 L 33 26 L 36 36 L 40 32 L 48 32" 
+          fill="none" stroke="#f0fdfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Brand Typography -->
+  <text x="82" y="38" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="22" font-weight="800" fill="#0f172a" letter-spacing="0.5">
+    MEDI<tspan fill="#0d9488">CARE</tspan>
+  </text>
+  <text x="83" y="55" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="11" font-weight="600" fill="#64748b" letter-spacing="1.5">
+    HOSPITAL MANAGEMENT
+  </text>
+</svg>
+

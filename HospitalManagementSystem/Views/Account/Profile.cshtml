@@ -1,0 +1,85 @@
+@model HospitalManagementSystem.Models.User
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card-modern text-center p-4">
+                <img src="@Model.ProfilePicture" id="profileImageDisplay" class="rounded-circle border border-3 border-teal mx-auto mb-3" style="width: 100px; height: 100px; object-fit: cover;" />
+                <h5 class="fw-bold text-dark mb-1">@Model.FullName</h5>
+                <span class="user-badge badge-@Model.Role mb-2 d-inline-block">@Model.Role</span>
+                <p class="text-muted small mb-0"><i class="bi bi-envelope me-1"></i> @Model.Email</p>
+                @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                {
+                    <p class="text-muted small"><i class="bi bi-telephone me-1"></i> @Model.PhoneNumber</p>
+                }
+
+                <div class="pt-3 border-top mt-3 text-start small">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-muted">Account Status:</span>
+                        <span class="badge bg-success">Active</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-muted">Member Since:</span>
+                        <span class="fw-semibold">@Model.CreatedAt.ToString("MMM dd, yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h5 class="card-title-modern"><i class="bi bi-person-gear text-primary"></i> Edit Profile Information</h5>
+                </div>
+                <div class="p-4">
+                    <form asp-action="UpdateProfile" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Select Profile Picture / Avatar</label>
+                            <div class="avatar-selector">
+                                <img src="/images/avatars/patient.svg" class="avatar-option @(Model.ProfilePicture == "/images/avatars/patient.svg" ? "selected" : "")" data-avatar="/images/avatars/patient.svg" />
+                                <img src="/images/avatars/doctor1.svg" class="avatar-option @(Model.ProfilePicture == "/images/avatars/doctor1.svg" ? "selected" : "")" data-avatar="/images/avatars/doctor1.svg" />
+                                <img src="/images/avatars/doctor2.svg" class="avatar-option @(Model.ProfilePicture == "/images/avatars/doctor2.svg" ? "selected" : "")" data-avatar="/images/avatars/doctor2.svg" />
+                                <img src="/images/avatars/nurse.svg" class="avatar-option @(Model.ProfilePicture == "/images/avatars/nurse.svg" ? "selected" : "")" data-avatar="/images/avatars/nurse.svg" />
+                                <img src="/images/avatars/warden.svg" class="avatar-option @(Model.ProfilePicture == "/images/avatars/warden.svg" ? "selected" : "")" data-avatar="/images/avatars/warden.svg" />
+                                <img src="/images/avatars/admin.svg" class="avatar-option @(Model.ProfilePicture == "/images/avatars/admin.svg" ? "selected" : "")" data-avatar="/images/avatars/admin.svg" />
+                            </div>
+                            <input type="hidden" name="profilePicture" id="selectedAvatarInput" value="@Model.ProfilePicture" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold">Full Name</label>
+                                <input type="text" name="fullName" class="form-control" value="@Model.FullName" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold">Email Address (Read-only)</label>
+                                <input type="text" class="form-control bg-light" value="@Model.Email" readonly />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold">Phone Number</label>
+                                <input type="text" name="phoneNumber" class="form-control" value="@Model.PhoneNumber" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold">Role</label>
+                                <input type="text" class="form-control bg-light" value="@Model.Role" readonly />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-custom">
+                            <i class="bi bi-save"></i> Save Profile Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,169 @@
+@model HospitalManagementSystem.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Create Account";
+    Layout = "_Layout";
+    var departments = ViewBag.Departments as List<HospitalManagementSystem.Models.Department> ?? new();
+}
+
+<div class="auth-bg">
+    <div class="auth-card" style="max-width: 650px;">
+        <div class="auth-logo">
+            <img src="~/images/hospital-logo.svg" alt="Medicare Logo" />
+            <h4 class="fw-bold text-dark mt-3 mb-1">Create Medicare Account</h4>
+            <p class="text-muted small">Join Medicare Hospital Clinical &amp; Patient Network</p>
+        </div>
+
+        <form asp-action="Register" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <!-- Avatar Picker -->
+            <div class="mb-3 text-center">
+                <label class="form-label small fw-bold text-secondary d-block">Choose Your Profile Avatar</label>
+                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                    <img id="currentAvatarPreview" src="~/images/avatars/patient.svg" class="rounded-circle border border-2 border-primary" style="width: 56px; height: 56px;" />
+                </div>
+                <div class="avatar-selector justify-content-center">
+                    <img src="~/images/avatars/patient.svg" class="avatar-option selected" data-avatar="/images/avatars/patient.svg" title="Patient" />
+                    <img src="~/images/avatars/doctor1.svg" class="avatar-option" data-avatar="/images/avatars/doctor1.svg" title="Doctor Male" />
+                    <img src="~/images/avatars/doctor2.svg" class="avatar-option" data-avatar="/images/avatars/doctor2.svg" title="Doctor Female" />
+                    <img src="~/images/avatars/nurse.svg" class="avatar-option" data-avatar="/images/avatars/nurse.svg" title="Nurse" />
+                    <img src="~/images/avatars/warden.svg" class="avatar-option" data-avatar="/images/avatars/warden.svg" title="Warden" />
+                    <img src="~/images/avatars/admin.svg" class="avatar-option" data-avatar="/images/avatars/admin.svg" title="Admin" />
+                </div>
+                <input type="hidden" asp-for="SelectedAvatar" id="selectedAvatarInput" value="/images/avatars/patient.svg" />
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FullName" class="form-label small fw-bold text-secondary">Full Name</label>
+                    <input asp-for="FullName" class="form-control" placeholder="John Doe" required />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Email" class="form-label small fw-bold text-secondary">Email Address</label>
+                    <input asp-for="Email" class="form-control" placeholder="john@example.com" required />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="PhoneNumber" class="form-label small fw-bold text-secondary">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="+1 (555) 000-0000" required />
+                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Role" class="form-label small fw-bold text-secondary">Role / Account Type</label>
+                    <select asp-for="Role" class="form-select" id="roleSelect" required>
+                        <option value="Patient">Patient</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Nurse">Nurse</option>
+                        <option value="Warden">Warden (Ward Admin)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Doctor Extra Fields (shown when Doctor selected) -->
+            <div id="doctorFields" style="display: none;" class="p-3 bg-light rounded-3 mb-3 border">
+                <div class="small fw-bold text-primary mb-2"><i class="bi bi-heart-pulse"></i> Doctor Credentials</div>
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label asp-for="Specialization" class="form-label small">Specialization</label>
+                        <input asp-for="Specialization" class="form-control form-control-sm" placeholder="e.g. Cardiologist" />
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label asp-for="Qualification" class="form-label small">Qualification</label>
+                        <input asp-for="Qualification" class="form-control form-control-sm" placeholder="MBBS, MD" />
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label asp-for="DepartmentId" class="form-label small">Department</label>
+                        <select asp-for="DepartmentId" class="form-select form-select-sm">
+                            @foreach (var dept in departments)
+                            {
+                                <option value="@dept.Id">@dept.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Extra Fields (shown when Patient selected) -->
+            <div id="patientFields" class="p-3 bg-light rounded-3 mb-3 border">
+                <div class="small fw-bold text-primary mb-2"><i class="bi bi-person"></i> Patient Profile Details</div>
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label asp-for="BloodGroup" class="form-label small">Blood Group</label>
+                        <select asp-for="BloodGroup" class="form-select form-select-sm">
+                            <option value="O+">O+</option>
+                            <option value="A+">A+</option>
+                            <option value="B+">B+</option>
+                            <option value="AB+">AB+</option>
+                            <option value="O-">O-</option>
+                            <option value="A-">A-</option>
+                            <option value="B-">B-</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label asp-for="Gender" class="form-label small">Gender</label>
+                        <select asp-for="Gender" class="form-select form-select-sm">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label asp-for="DateOfBirth" class="form-label small">Date of Birth</label>
+                        <input asp-for="DateOfBirth" type="date" class="form-control form-control-sm" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Password" class="form-label small fw-bold text-secondary">Password</label>
+                    <input asp-for="Password" class="form-control" placeholder="••••••••" required />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ConfirmPassword" class="form-label small fw-bold text-secondary">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="••••••••" required />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary-custom w-100 justify-content-center py-2 mb-3">
+                <i class="bi bi-check-circle"></i> Complete Registration
+            </button>
+
+            <div class="text-center">
+                <span class="text-muted small">Already have an account? </span>
+                <a asp-action="Login" class="small text-primary fw-bold text-decoration-none">Sign In</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#roleSelect').on('change', function () {
+                const role = $(this).val();
+                if (role === 'Doctor') {
+                    $('#doctorFields').slideDown();
+                    $('#patientFields').slideUp();
+                } else if (role === 'Patient') {
+                    $('#patientFields').slideDown();
+                    $('#doctorFields').slideUp();
+                } else {
+                    $('#doctorFields').slideUp();
+                    $('#patientFields').slideUp();
+                }
+            });
+        });
+    </script>
+}
+

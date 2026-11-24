@@ -1,0 +1,115 @@
+﻿@{
+    ViewData["Title"] = "Medicare Multi-Specialty Hospital";
+    var doctors = ViewBag.Doctors as List<HospitalManagementSystem.Models.Doctor> ?? new();
+    var departments = ViewBag.Departments as List<HospitalManagementSystem.Models.Department> ?? new();
+}
+
+<!-- Hero Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <span class="badge bg-teal text-white mb-3 px-3 py-2" style="background-color: #0d9488;">
+                    <i class="bi bi-shield-check me-1"></i> Accredited Healthcare Facility
+                </span>
+                <h1 class="display-4 fw-extrabold text-dark mb-3 lh-sm">
+                    Advanced Medical Care, <span style="color: #0d9488;">Compassionate</span> Hearts.
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Medicare integrates clinical precision with next-generation electronic healthcare management. Connect with leading specialists, book real-time appointments, and manage patient care seamlessly.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary-custom btn-lg">
+                        <i class="bi bi-calendar-plus me-1"></i> Register as Patient
+                    </a>
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-custom btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Staff &amp; Doctor Portal
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <div class="card-modern p-4 border-0 shadow-lg">
+                    <div class="d-flex align-items-center gap-3 mb-3 text-start">
+                        <div class="stat-icon primary"><i class="bi bi-clock-history"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">24/7 Emergency Response</h6>
+                            <small class="text-muted">Instant triage &amp; ICU support</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 mb-3 text-start">
+                        <div class="stat-icon accent"><i class="bi bi-award"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Board-Certified Specialists</h6>
+                            <small class="text-muted">Cardiology, Neurology, Pediatrics</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 text-start">
+                        <div class="stat-icon success"><i class="bi bi-file-earmark-medical"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Electronic Medical Records</h6>
+                            <small class="text-muted">Prescriptions, vitals &amp; digital billing</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Departments Section -->
+<section id="services" class="py-5 bg-white">
+    <div class="container py-3">
+        <div class="text-center mb-5">
+            <h6 class="text-uppercase fw-bold" style="color: #0d9488; letter-spacing: 1px;">Clinical Excellence</h6>
+            <h2 class="fw-bold text-dark">Our Medical Specialties</h2>
+            <p class="text-muted mx-auto" style="max-width: 600px;">World-class healthcare departments equipped with modern diagnostic facilities and experienced specialists.</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var dept in departments)
+            {
+                <div class="col-md-4">
+                    <div class="card-modern p-4 h-100">
+                        <div class="stat-icon primary mb-3">
+                            <i class="bi bi-hospital"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">@dept.Name</h5>
+                        <p class="text-muted small mb-3">@dept.Description</p>
+                        <div class="text-muted small mt-auto border-top pt-2">
+                            <i class="bi bi-geo-alt me-1 text-primary"></i> @dept.Location
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Doctors Directory Preview -->
+<section id="doctors" class="py-5" style="background-color: #f8fafc;">
+    <div class="container py-3">
+        <div class="text-center mb-5">
+            <h6 class="text-uppercase fw-bold" style="color: #0d9488; letter-spacing: 1px;">Expert Caregivers</h6>
+            <h2 class="fw-bold text-dark">Meet Our Specialist Doctors</h2>
+            <p class="text-muted mx-auto" style="max-width: 600px;">Dedicated physicians providing patient-centric consultations and treatments.</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var doc in doctors)
+            {
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-modern text-center p-4 h-100">
+                        <img src="@(doc.User?.ProfilePicture ?? "/images/avatars/doctor1.svg")" class="rounded-circle mx-auto mb-3 border border-2 border-primary" style="width: 80px; height: 80px; object-fit: cover;" />
+                        <h6 class="fw-bold text-dark mb-1">@(doc.User?.FullName ?? "Doctor")</h6>
+                        <span class="badge bg-light text-primary mb-2">@doc.Specialization</span>
+                        <div class="small text-muted mb-2">@doc.Qualification &bull; @doc.ExperienceYears yrs exp</div>
+                        <div class="small fw-semibold text-success mb-3">Fee: $@doc.ConsultationFee</div>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-sm btn-outline-custom mt-auto w-100">
+                            Book Visit
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
